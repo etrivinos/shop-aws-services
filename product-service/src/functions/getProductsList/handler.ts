@@ -1,13 +1,12 @@
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
+import { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 
 import schema from './schema';
-import mockProductList from '@mocks/products.mock';
+import { products } from '@mocks/products.mock';
+import { HTTPMessage } from '@utils/http.message';
+import { IRecord } from '@models/general.model';
 
 const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(mockProductList)
-  }
+  return HTTPMessage.success(products as IRecord[]);
 };
 
 export const main = getProductsList;

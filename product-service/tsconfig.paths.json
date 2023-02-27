@@ -6,6 +6,7 @@
       "@libs/*": ["src/libs/*"],
       "@models/*": ["src/shared/models/*"],
       "@mocks/*": ["src/shared/mocks/*"],
+      "@utils/*": ["src/shared/utils/*"],
     }
   }
 }
