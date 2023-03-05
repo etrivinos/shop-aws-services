@@ -1,17 +1,23 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 
 import schema from './schema';
-import { products } from '@mocks/products.mock';
 import { HTTPMessage } from '@utils/http.message';
-import { IRecord } from '@models/general.model';
-import { IProduct } from '@models/product.model';
+import { getProductWithStock } from '@utils/db.queries';
+import { logRequest } from '@utils/utils';
 
 const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
-  const product = filterProductById(event.pathParameters.productId);  
+  logRequest(event);
 
-  return product ? 
-    HTTPMessage.success(product as IRecord) : 
-    HTTPMessage.notFound('Product');
+  try {
+    const productWithStock = await getProductWithStock(event.pathParameters.productId);
+    
+    return productWithStock ?
+      HTTPMessage.success(productWithStock) :
+      HTTPMessage.notFound('Product');
+  }
+  catch(error) {
+    return HTTPMessage.internalServerError(error);
+  }
 };
 
 function filterProductById(productId: string): IProduct {

@@ -8,6 +8,13 @@ export class HTTPMessage {
       });
     }
 
+    static internalServerError = (error: Error) => {
+      return HTTPMessage.addHeaders({
+        statusCode: 505,
+        body: `Internal Server Error. ${error.message}`,
+      });
+    }
+
     static success = (response: IRecord) => {
       return HTTPMessage.addHeaders({
           statusCode: 200,
