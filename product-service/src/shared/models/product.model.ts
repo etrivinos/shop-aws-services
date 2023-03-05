@@ -10,3 +10,11 @@ export interface IProduct {
       count: number
     }
 };
+
+export interface IProductStock {
+  product_id: string,
+  count: number
+};
+
+
+export type IProductWithStock = IProduct & IProductStock;
