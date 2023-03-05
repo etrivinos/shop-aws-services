@@ -1,0 +1,19 @@
+{
+  "name": "@etrivinos_epam/seed-dynamodb",
+  "version": "1.0.2",
+  "description": "Seed AWS dynamo tables with sample data",
+  "keywords": ["seed", "dynamodb", "aws"],
+  "home": "https://github.com/etrivinos/seed-dynamodb#readme",
+  "license": "GNU GPLv3",
+  "main": "index.js",
+  "author": "Edwin Triviños <edwin.trivinos@hotmail.com> (https://www.linkedin.com/in/edwintrivinos/)",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@aws-sdk/lib-dynamodb": "^3.284.0",
+    "@aws-sdk/types": "^3.32.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.23"
+  },
+  "type": "module"
+}
