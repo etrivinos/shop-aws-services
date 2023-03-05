@@ -20,4 +20,8 @@ const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
   }
 };
 
+function filterProductById(productId: string): IProduct {
+  return products.filter(product => product.id === +productId)[0];
+}
+
 export const main = getProductById;
