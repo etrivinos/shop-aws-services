@@ -1,10 +1,9 @@
 import type { AWS } from '@serverless/typescript';
-import getProductsList from '@functions/getProductsList';
-import getProductById from '@functions/getProductById';
-import createProduct from '@functions/createProduct';
+import importProductsFile from '@functions/importProductsFile';
+import importFileParser from '@functions/importFileParser';
 
 const serverlessConfiguration: AWS = {
-  service: 'product-service',
+  service: 'import-service',
   frameworkVersion: '3',
   plugins: ['serverless-esbuild'],
   provider: {
@@ -18,14 +17,31 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      PRODUCTS_TABLE: 'products',
-      STOCKS_TABLE: 'stocks'
+      S3_BUCKET: 'node-in-aws-cloud-products',
+      S3_KEY_PRODUCTS: 'uploaded',
     },
+    iamRoleStatements: [
+      {
+        Effect: "Allow",
+        Action: "s3:ListBucket",
+        Resource: [
+          "arn:aws:s3:::node-in-aws-cloud-products"
+        ]
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "s3:*"
+        ],
+        Resource: [
+          "arn:aws:s3:::node-in-aws-cloud-products/*"
+        ]
+      }
+    ]
   },
-  functions: { 
-    getProductsList,
-    getProductById,
-    createProduct
+  functions: {
+    importProductsFile,
+    importFileParser,
   },
   package: { individually: true },
   custom: {
