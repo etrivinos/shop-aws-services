@@ -5,13 +5,14 @@ import { HTTPMessage } from '@utils/http.message';
 import { IProduct } from '@models/product.model';
 import { getAllProductsWithStock } from '@utils/db.queries';
 import { logRequest } from '@utils/utils';
+import { products } from '@mocks/products.mock';
 
 const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   logRequest(event);
 
   try {
-    const products: IProduct[] = await getAllProductsWithStock();
-    return HTTPMessage.success(products);
+    const allProductsWithStock: IProduct[] = products; // await getAllProductsWithStock();
+    return HTTPMessage.success(allProductsWithStock);
   }
   catch(error) {
     return HTTPMessage.internalServerError(error);

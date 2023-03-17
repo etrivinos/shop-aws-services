@@ -17,17 +17,9 @@ export const getPutSignedURL = async (bucket: string, key: string, contentType =
   return await getSignedUrl(s3Client, command, { expiresIn: expires });
 }
 
-export const getS3ObjectStream = async (bucket: string, key: string, log = true) => {
+export const getS3ObjectStream = async (bucket: string, key: string): Promise<Stream> => {
   const s3Object = await s3.getObject({ Bucket: bucket, Key: key });
-  const stream = (s3Object.Body as Stream).pipe(parse());
-  
-  if(log) {
-    for await (const chunk of stream) {
-      console.log('chunk',chunk);
-    }
-  }
-
-  return stream;
+  return s3Object.Body as Stream;
 }
 
 export const copyS3Object = async (key: string, origin: string, destination: string) => {
@@ -51,3 +43,24 @@ export const deleteS3Object = async (key: string) => {
   return await s3Client.send(input);
 }
 
+export const getJSONFromS3ObjectStream = async (bucket: string, key: string) => {
+  const stream = (await getS3ObjectStream(bucket, key)).pipe(parse());
+  let items = [];
+  let titles = [];
+
+  let index = 0;
+  for await (const chunk of stream) {
+    if(!index) {
+      chunk.forEach((value: string) => titles.push(value));
+    }
+    else {
+      let line = {};
+      chunk.forEach((value: string, index: number) => line[titles[index]] = value);
+      items.push(line);
+    }
+
+    index++;
+  }
+
+  return items;
+}

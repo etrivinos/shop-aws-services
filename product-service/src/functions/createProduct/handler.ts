@@ -13,7 +13,7 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   try {
     const product: IProduct = JSON.parse(event.body as any);
     product.id = randomUUID();
-    await insertProduct(product);
+    // await insertProduct(product);
     return HTTPMessage.success(product);
   }
   catch(error) {
