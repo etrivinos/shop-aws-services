@@ -19,6 +19,7 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       S3_BUCKET: 'node-in-aws-cloud-products',
       S3_KEY_PRODUCTS: 'uploaded',
+      SQS_CATALOG_ITEMS_QUEUE: 'https://sqs.us-east-2.amazonaws.com/985895943642/catalogItemsQueue'
     },
     iamRoleStatements: [
       {
@@ -35,6 +36,15 @@ const serverlessConfiguration: AWS = {
         ],
         Resource: [
           "arn:aws:s3:::node-in-aws-cloud-products/*"
+        ]
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "sqs:SendMessage"
+        ],
+        Resource: [
+          "arn:aws:sqs:us-east-2:985895943642:catalogItemsQueue"
         ]
       }
     ]

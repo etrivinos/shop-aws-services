@@ -4,12 +4,13 @@ import schema from './schema';
 import { HTTPMessage } from '@utils/http.message';
 import { getProductWithStock } from '@utils/db.queries';
 import { logRequest } from '@utils/utils';
+import { products } from '@mocks/products.mock';
 
 const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   logRequest(event);
 
   try {
-    const productWithStock = await getProductWithStock(event.pathParameters.productId);
+    const productWithStock = products[0]; // await getProductWithStock(event.pathParameters.productId);
     
     return productWithStock ?
       HTTPMessage.success(productWithStock) :
