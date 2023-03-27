@@ -15,6 +15,12 @@ export default {
             },
           },
         },
+        authorizer: {
+          arn: 'arn:aws:lambda:us-east-2:985895943642:function:authorization-service-dev-basicAuthorizer',
+          resultTtlInSeconds: 0,
+          identitySource: 'method.request.header.Authorization',
+          type: 'request'
+        }
       },
     },
   ],
